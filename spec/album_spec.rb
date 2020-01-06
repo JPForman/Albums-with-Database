@@ -1,14 +1,8 @@
-require 'rspec'
-require 'album'
-require 'song'
-require 'pry'
+# require 'album'
+# require 'song'
+require('spec_helper')
 
 describe '#Album' do
-
-  before(:each) do
-    Album.clear
-    Song.clear
-  end
 
   describe('.all') do
     it("returns an empty array when there are no albums") do
