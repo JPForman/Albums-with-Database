@@ -9,7 +9,7 @@
   </div>
   <button type="submit" class="btn">Search</button>
 </form>
-
+<h2>Albums</h2>
 <% if @albums.any? %>
   <ul>
     <% @albums.each do |album| %>
@@ -19,6 +19,17 @@
 <% else %>
   <p>There are currently no records to display.</p>
 <% end %>
+<h2>Artists</h2>
+<% if @artists.any? %>
+  <ul>
+    <% @artists.each do |artist| %>
+      <li><a href="/artists/<%= artist.id %>"><%= artist.name %></a></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>There are currently no artists to display.</p>
+<% end %>
 
-<a href="/albums/new">Add a new album</a>
+
+<a href="/albums/new">Add a new album</a> <br>
 <a href="/artists/new">Add a new artist</a>

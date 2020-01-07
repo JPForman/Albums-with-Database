@@ -15,6 +15,7 @@ end
 
 get('/albums') do
   @albums = Album.all
+  @artists = Artist.all
   erb(:albums)
 end
 
