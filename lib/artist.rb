@@ -58,6 +58,10 @@ class Artist
       album = DB.exec("SELECT * FROM albums WHERE lower(name)='#{album_name.downcase}';").first
       if album != nil
         DB.exec("INSERT INTO albums_artists (album_id, artists_id) VALUES (#{album['id'].to_i}, #{@id});")
+      else
+        new_album = Album.new({:name => album_name, :id => nil})
+        new_album.save
+        DB.exec("INSERT INTO albums_artists (album_id, artists_id) VALUES (#{new_album.id}, #{@id});")
       end
     end
   end
@@ -67,34 +71,21 @@ class Artist
     album_ids = ''
     results.each() do |result|
       album_ids << (result.fetch("album_id")) + ", "
-
     end
-    # binding.pry
+    if album_ids != ""
     albums = DB.exec("SELECT * FROM albums WHERE id IN (#{album_ids.slice(0, (album_ids.length - 2))});")
-    album_hashes = []
-    albums.each() do |album|
-      album_hashes.push(album)
-    end
     album_objects = []
-    album_hashes.each() do |hash|
+    albums.each() do |hash|
       id = hash.fetch("id").to_i
       album_objects.push(Album.find(id))
     end
     return album_objects
+  else
+    nil
+  end
   end
 
-  # def albums
-  #   albums = []
-  #   results = DB.exec("SELECT album_id FROM albums_artists WHERE artists_id = #{@id};")
-  #   binding.pry
-  #   results.each() do |result|
-  #     album_id = result.fetch("album_id").to_i()
-  #     album = DB.exec("SELECT * FROM albums WHERE id = #{album_id};")
-  #     name = album.first().fetch("name")
-  #     albums.push(Album.new({:name => name, :id => album_id}))
-  #   end
-  #   albums
-  # end
+
 
   # def songs
   #   Song.find_by_artist(self.id)

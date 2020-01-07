@@ -73,16 +73,17 @@ describe '#artist' do
     it("adds an album to an artist") do
       artist = Artist.new({:name => "John Coltrane", :id => nil})
       artist.save()
-      album = Album.new({:name => "A Love Supreme", :id => nil})
-      album.save()
-      album2 = Album.new({:name => "Album 2", :id => nil})
-      album2.save()
-      album3 = Album.new({:name => "Album 3", :id => nil})
-      album3.save()
       artist.update({:album_name => "A Love Supreme"})
-      artist.update({:album_name => "Album 2"})
-      artist.update({:album_name => "Album 3"})
-      expect(artist.albums).to(eq([album, album2, album3]))
+      expect(artist.albums).not_to(eq([]))
+    end
+  end
+
+  describe('#update') do
+    it("adds an album to an artist") do
+      artist = Artist.new({:name => "John Coltrane", :id => nil})
+      artist.save()
+      artist.update({:album_name => "A Love Supreme"})
+      expect(artist.albums).not_to(eq([]))
     end
   end
 
